@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
@@ -8,23 +9,21 @@ import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.exception.NotEnoughStockException;
 import jpabook.jpashop.repository.OrderRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
-import static org.junit.Assert.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class OrderServiceTest {
 
-    @Autowired EntityManager em;
+    @Autowired
+    EntityManager em;
     @Autowired OrderService orderService;
     @Autowired OrderRepository orderRepository;
 
@@ -49,7 +48,7 @@ public class OrderServiceTest {
         assertEquals("주문 수량만큼 재고가 줄어야 한다.", 8, book.getStockQuantity());
     }
 
-    @Test(expected = NotEnoughStockException.class)
+    @Test
     public void 상품주문_재고수량초과() throws Exception {
         //given
         Member member = createMember();
@@ -58,10 +57,11 @@ public class OrderServiceTest {
         int orderCount = 11;
 
         //when
-        orderService.order(member.getId(), item.getId(), orderCount);
+
 
         //then
-        fail("재고 수량 부족 예외가 발행해야 한다.");
+        // 재고 수량 부족 예외가 발행해야 한다
+        assertThrows(NotEnoughStockException.class, () -> orderService.order(member.getId(), item.getId(), orderCount));
     }
 
     @Test

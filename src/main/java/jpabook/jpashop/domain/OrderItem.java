@@ -1,15 +1,15 @@
 package jpabook.jpashop.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jpabook.jpashop.domain.item.Item;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import static jakarta.persistence.FetchType.LAZY;
 
-import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
