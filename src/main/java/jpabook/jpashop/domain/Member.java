@@ -21,7 +21,7 @@ public class Member {
     @Embedded
     private Address address;
 
-    @JsonIgnore
+    @JsonIgnore // 필요 없는 데이터를 Json에서 빼줌
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
