@@ -18,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired
     EntityManager em;
 
